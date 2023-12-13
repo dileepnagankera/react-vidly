@@ -1,25 +1,32 @@
-import React, { Component } from 'react'
-import {getMovies} from "../services/fakeMovieService"
+import React, { Component } from "react";
+import { getMovies } from "../services/fakeMovieService";
+import Like from "./common/like";
 
 class Movies extends Component {
   state = {
     movies: getMovies(),
   };
 
-  handleDlelete=(movie)=>{
-    const movies=this.state.movies.filter(m=>m._id !==movie._id)
-    this.setState({movies})
-  }
+  handleDlelete = (movie) => {
+    const movies = this.state.movies.filter((m) => m._id !== movie._id);
+    this.setState({ movies });
+  };
+
+  handleLike = (movie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
+  };
 
   render() {
+    const { length: count } = this.state.movies;
 
-    const {length:count}=this.state.movies
-
-    if(count===0)
-    return<p>There are no movies in the database.</p>
+    if (count === 0) return <p>There are no movies in the database.</p>;
     return (
       <>
-      <p>Showing {this.state.movies.length} movies in the datbase.</p>
+        <p>Showing {this.state.movies.length} movies in the datbase.</p>
         <table className="table">
           <thead>
             <tr>
@@ -27,6 +34,7 @@ class Movies extends Component {
               <th>Genre</th>
               <th>Stock</th>
               <th>Rate</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -37,6 +45,12 @@ class Movies extends Component {
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
+                <td>
+                  <Like
+                    liked={movie.liked}
+                    onClick={() => this.handleLike(movie)}
+                  />
+                </td>
                 <td>
                   <button
                     onClick={() => this.handleDlelete(movie)}
@@ -53,5 +67,5 @@ class Movies extends Component {
     );
   }
 }
- 
+
 export default Movies;

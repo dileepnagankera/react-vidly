@@ -3,7 +3,7 @@ import * as genresAPI from "./fakeGenreService";
 const movies = [
   {
     _id: "5b21ca3eeb7f6fbccd471815",
-    title: "Terminator",
+    title: "Vikrant Rona",
     genre: { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
     numberInStock: 6,
     dailyRentalRate: 2.5,
